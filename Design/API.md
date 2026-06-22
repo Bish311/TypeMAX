@@ -44,11 +44,11 @@ graph TD
     subgraph SUGGEST_FLOW["GET /suggest Processing"]
         style SUGGEST_FLOW fill:#1a1a2e,stroke:#e94560,color:#fff
 
-        A["Receive q parameter"] --> B{"q is empty--}
+        A["Receive q parameter"] --> B{"q is empty?"}
         B -->|"Yes"| C["Return empty array"]
         B -->|"No"| D["Compute hash node<br/>consistent_hashing.get_assigned_node(q)"]
         D --> E["Check Redis cache<br/>redis_manager.get_cached_suggestions"]
-        E --> F{"Cache hit--}
+        E --> F{"Cache hit?"}
         F -->|"Yes"| G["Return cached results"]
         F -->|"No"| H["Query PostgreSQL<br/>LIKE prefix% ORDER BY count DESC LIMIT 50"]
         H --> I["Apply trending re-rank<br/>trending_calculator.calculate_trending_suggestions"]
@@ -137,7 +137,7 @@ graph TD
         style SEARCH_FLOW fill:#1a1a2e,stroke:#e94560,color:#fff
 
         A["Receive JSON body"] --> B["Validate via Pydantic<br/>SearchSubmission model"]
-        B --> C{"Valid--}
+        B --> C{"Valid?"}
         C -->|"No"| D["Return 422<br/>Validation Error"]
         C -->|"Yes"| E["Push query to Redis queue<br/>RPUSH search_queue"]
         E --> F["Return 200<br/>Searched"]
@@ -214,7 +214,7 @@ graph TD
 
         A["Receive prefix parameter"] --> B["Compute hash node<br/>get_assigned_node(prefix)"]
         B --> C["Check Redis cache<br/>get_cached_suggestions(node, prefix)"]
-        C --> D{"Result is not None--}
+        C --> D{"Result is not None?"}
         D -->|"Yes"| E["is_hit = true"]
         D -->|"No"| F["is_hit = false"]
         E --> G["Return DebugResponse"]
@@ -352,9 +352,9 @@ graph TD
     subgraph ERROR_HANDLING["Error Response Matrix"]
         style ERROR_HANDLING fill:#1a1a2e,stroke:#e94560,color:#fff
 
-        REQ["Incoming Request"] --> METHOD{"Correct HTTP method--}
+        REQ["Incoming Request"] --> METHOD{"Correct HTTP method?"}
         METHOD -->|"No"| E405["405 Method Not Allowed"]
-        METHOD -->|"Yes"| BODY{"Valid request body/params--}
+        METHOD -->|"Yes"| BODY{"Valid request body/params?"}
         BODY -->|"No"| E422["422 Unprocessable Entity"]
         BODY -->|"Yes"| PROCESS["Process normally"]
         PROCESS --> E200["200 OK"]
