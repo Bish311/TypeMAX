@@ -21,3 +21,6 @@ build/
 # Redis/Postgres
 dump.rdb
 *.sql
+
+# Datasets
+*.txt
