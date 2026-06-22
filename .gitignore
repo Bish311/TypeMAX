@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.env
+
+# Node
+node_modules/
+dist/
+build/
+.npm
+
+# IDE
+.vscode/
+.idea/
+
+\personal
+
+# Redis/Postgres
+dump.rdb
+*.sql

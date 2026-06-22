@@ -1,0 +1,9 @@
+[tool.basedpyright]
+include = ["."]
+exclude = [
+    "**/__pycache__",
+    "venv"
+]
+venvPath = "."
+venv = "venv"
+typeCheckingMode = "standard"
